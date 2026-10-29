@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/*
+  Tokens del diseño (propuestos por la skill ui-ux-pro-max).
+  Para cambiar la paleta de todo el sitio, edita solo estos valores.
+  Se usan en Tailwind como bg-fondo, text-texto, bg-acento, etc.
+*/
+@theme {
+  --color-fondo: #faf5f2;
+  --color-tarjeta: #ffffff;
+  --color-texto: #0f172a;
+  --color-texto-suave: #475569;
+  --color-etiqueta: #57534e;
+  --color-primario: #78716c;
+  --color-secundario: #a8a29e;
+  --color-acento: #d97706;
+  --color-acento-hover: #b45309;
+  --color-acento-oscuro: #92400e;
+  --color-borde: #eeeded;
+  --color-foto: #f3ece6;
+
+  --font-titulo: var(--font-rubik), system-ui, sans-serif;
+  --font-cuerpo: var(--font-nunito), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--font-cuerpo);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primario);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
