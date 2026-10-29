@@ -15,6 +15,9 @@ export default function Login() {
 
   // Si ya hay sesión iniciada, ir directo al panel.
   useEffect(() => {
+    if (new URLSearchParams(window.location.search).has("sin-permiso")) {
+      setError("Esta cuenta no tiene permiso para administrar el catálogo.");
+    }
     supabaseNavegador?.auth.getSession().then(({ data }) => {
       if (data.session) router.replace("/admin");
     });
@@ -28,9 +31,22 @@ export default function Login() {
     setError(null);
     setCargando(true);
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: clave });
-    setCargando(false);
     if (error) {
+      setCargando(false);
       setError("El correo o la contraseña no son correctos.");
+      return;
+    }
+
+    // La cuenta existe, pero ¿está en la lista de administradores?
+    const { data: esAdmin, error: errorAdmin } = await supabase.rpc("es_admin");
+    if (errorAdmin || esAdmin !== true) {
+      await supabase.auth.signOut();
+      setCargando(false);
+      setError(
+        errorAdmin
+          ? "No se pudo verificar el permiso. ¿Ejecutaste supabase/seguridad.sql?"
+          : "Esta cuenta no tiene permiso para administrar el catálogo.",
+      );
       return;
     }
     router.replace("/admin");

@@ -78,3 +78,11 @@ insert into public.productos (nombre, descripcion, precio, categoria, disponible
   ('Elefante de la suerte', 'Elefante con la trompa hacia arriba.',                 0, 'Elefantes', true,  true),
   ('Ganesha sentado',       'Figura de Ganesha.',                                   0, 'Ganesha',   true,  false),
   ('Pareja de elefantes',   'Dos elefantes decorativos.',                           0, 'Elefantes', false, false);
+
+-- 5. Permisos de la API
+--    Necesarios si al crear el proyecto se desactivó "Exponer automáticamente nuevas tablas".
+--    Los permisos abren la puerta; las políticas RLS de arriba deciden quién pasa.
+grant usage on schema public to anon, authenticated;
+grant select on public.productos to anon, authenticated;
+grant insert, update, delete on public.productos to authenticated;
+-- La tabla "administradores" (seguridad.sql) no se expone: solo la lee la función es_admin().

@@ -24,9 +24,18 @@ Abre http://localhost:3000. Sin configurar Supabase, el sitio muestra 8 producto
 4. Pon el número de WhatsApp en `NEXT_PUBLIC_WHATSAPP_NUMBER` (ej: `56912345678`).
 5. Reinicia `npm run dev`.
 
-**Seguridad:** cualquiera puede *ver* productos, pero solo un usuario con sesión puede crear, editar o borrar.
-Por eso, en **Authentication → Sign In / Providers**, desactiva *Allow new users to sign up* y crea a mano
-el único usuario administrador (tu familiar) en **Authentication → Users → Add user**.
+### Seguridad (obligatorio)
+
+1. En **Authentication → Sign In / Providers**, desactiva *Allow new users to sign up*.
+2. Crea el usuario administrador en **Authentication → Users → Add user** (correo + contraseña larga).
+3. Abre `supabase/seguridad.sql`, reemplaza `CORREO_DEL_ADMINISTRADOR@ejemplo.com` por ese mismo correo
+   y ejecútalo en el **SQL Editor**.
+
+Con esto, cualquiera puede *ver* el catálogo, pero solo los correos de la tabla `administradores`
+pueden crear, editar o borrar productos y fotos. El bucket acepta solo imágenes de hasta 5 MB.
+Para agregar otro administrador: `insert into public.administradores (email) values ('otro@correo.com');`
+
+El panel está en `/admin/login`.
 
 ## 3. Estructura
 
@@ -35,6 +44,7 @@ src/
   app/
     page.tsx                 Inicio: portada, catálogo, cómo comprar
     productos/[id]/page.tsx  Detalle de cada figura
+    admin/                   Panel: login, lista, crear y editar figuras
     globals.css              Colores y fuentes (tokens del diseño)
   components/                Encabezado, Portada, Catalogo, TarjetaProducto, ...
   lib/
@@ -42,6 +52,7 @@ src/
     whatsapp.ts              Links wa.me con mensaje prellenado
     sitio.ts                 Nombre, ubicación, horario, Instagram
 supabase/schema.sql          Base de datos, bucket y políticas
+supabase/seguridad.sql       Restringe la edición a los administradores y limita las fotos
 ```
 
 ## 4. Cambiar el diseño
@@ -55,6 +66,5 @@ supabase/schema.sql          Base de datos, bucket y políticas
 Sube el proyecto a GitHub, impórtalo en https://vercel.com y agrega las mismas variables de `.env.local`
 en *Settings → Environment Variables*.
 
-## Próximo paso
-
-Panel de administración (`/admin`) con inicio de sesión para agregar, editar y marcar productos sin stock.
+El sitio usa HTTPS automáticamente en Vercel, y `next.config.ts` agrega cabeceras de seguridad
+(HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy).

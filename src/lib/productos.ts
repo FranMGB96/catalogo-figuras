@@ -21,9 +21,11 @@ const EJEMPLOS: Producto[] = [
   { id: "ejemplo-4", nombre: "Pareja de elefantes", descripcion: null, precio: 0, categoria: "Elefantes", imagen_url: null, disponible: false, destacado: false },
   { id: "ejemplo-5", nombre: "Ganesha sentado", descripcion: null, precio: 0, categoria: "Ganesha", imagen_url: null, disponible: true, destacado: false },
   { id: "ejemplo-6", nombre: "Ganesha con loto", descripcion: null, precio: 0, categoria: "Ganesha", imagen_url: null, disponible: true, destacado: false },
+  { id: "ejemplo-9", nombre: "Mano de loto", descripcion: null, precio: 0, categoria: "Tortugas", imagen_url: null, disponible: false, destacado: false },
+  { id: "ejemplo-10", nombre: "Cascada", descripcion: null, precio: 0, categoria: "Cascadas", imagen_url: null, disponible: false, destacado: false },
   { id: "ejemplo-7", nombre: "Monje en reposo", descripcion: null, precio: 0, categoria: "Otros", imagen_url: null, disponible: true, destacado: false },
   { id: "ejemplo-8", nombre: "Mano de loto", descripcion: null, precio: 0, categoria: "Otros", imagen_url: null, disponible: false, destacado: false },
-  { id: "ejemplo-9", nombre: "Mano de loto", descripcion: null, precio: 0, categoria: "Tortugas", imagen_url: null, disponible: false, destacado: false },
+ 
 ];
 
 /** Todos los productos: primero los disponibles, luego destacados, luego los más nuevos. */

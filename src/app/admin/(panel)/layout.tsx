@@ -15,9 +15,19 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     if (!supabaseNavegador) return;
     const supabase = supabaseNavegador;
 
-    supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) router.replace("/admin/login");
-      else setEmail(data.session.user.email ?? "");
+    supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session) {
+        router.replace("/admin/login");
+        return;
+      }
+      // Verifica que la cuenta esté en la tabla "administradores" (ver supabase/seguridad.sql).
+      const { data: esAdmin, error } = await supabase.rpc("es_admin");
+      if (error || esAdmin !== true) {
+        await supabase.auth.signOut();
+        router.replace("/admin/login?sin-permiso=1");
+        return;
+      }
+      setEmail(data.session.user.email ?? "");
     });
 
     const { data } = supabase.auth.onAuthStateChange((_evento, sesion) => {
