@@ -31,11 +31,17 @@ export function TarjetaProducto({ producto }: { producto: Producto }) {
             {producto.nombre}
           </Link>
         </h3>
-        <p className="mb-2 text-[17px] font-bold sm:text-xl">{formatearPrecio(producto.precio)}</p>
+        {producto.precio > 0 ? (
+          <p className="mb-2 text-[17px] font-bold sm:text-xl">{formatearPrecio(producto.precio)}</p>
+        ) : (
+          <p className="mb-2 text-sm font-semibold text-texto-suave sm:text-[15px]">Precio a consultar</p>
+        )}
 
-        <BotonWhatsApp href={linkWhatsAppProducto(producto)} className="mt-auto w-full px-3 text-sm sm:text-[15px]">
-          <span className="sm:hidden">{sinStock ? "Disponibilidad" : "Consultar"}</span>
-          <span className="hidden sm:inline">{sinStock ? "Consultar disponibilidad" : "Consultar por WhatsApp"}</span>
+        <BotonWhatsApp
+          href={linkWhatsAppProducto(producto)}
+          className="mt-auto w-full px-3 text-sm whitespace-nowrap sm:text-[15px]"
+        >
+          {sinStock ? "Ver disponibilidad" : "Consultar"}
         </BotonWhatsApp>
       </div>
     </article>

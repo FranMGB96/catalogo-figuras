@@ -65,7 +65,11 @@ export default async function DetalleProducto({ params }: Props) {
           <div className="flex flex-col gap-4">
             <span className="text-sm font-bold tracking-wide text-etiqueta uppercase">{producto.categoria}</span>
             <h1 className="font-titulo text-3xl leading-tight font-medium md:text-[42px]">{producto.nombre}</h1>
-            <p className="text-2xl font-bold md:text-3xl">{formatearPrecio(producto.precio)}</p>
+            {producto.precio > 0 ? (
+              <p className="text-2xl font-bold md:text-3xl">{formatearPrecio(producto.precio)}</p>
+            ) : (
+              <p className="text-lg font-semibold text-texto-suave">Precio a consultar por WhatsApp</p>
+            )}
             {producto.descripcion && (
               <p className="max-w-prose text-base text-texto-suave md:text-lg">{producto.descripcion}</p>
             )}
